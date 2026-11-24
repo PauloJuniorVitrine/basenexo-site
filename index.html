@@ -87,6 +87,7 @@
   .micro svg{width:13px;height:13px;stroke:var(--green);fill:none;stroke-width:2.2;flex:none}
 
   /* ---------- sample card ---------- */
+  .card-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .card{
     background:#fff;border:1px solid var(--line);border-radius:var(--radius);
     box-shadow:0 1px 0 var(--line), 0 22px 44px -30px rgba(18,16,14,.5);
@@ -232,8 +233,18 @@
     .wrap{padding:0 20px}
     .hero{padding-top:52px}
   }
+  @media (max-width:640px){
+    table.sample th:nth-child(4), table.sample td:nth-child(4){display:none}
+    .card-head .mono{font-size:9.5px}
+  }
   @media (max-width:560px){
     body{font-size:16px}
+    header .bar{height:60px;gap:10px}
+    .mark span{font-size:17px}
+    header .btn-sm{padding:9px 12px;font-size:12.5px}
+    h1{font-size:clamp(32px,9vw,44px)}
+    .lede{font-size:16.5px}
+    .cta-row .btn{flex:1 1 100%}
     .row2{grid-template-columns:1fr}
     .card-note{text-align:left}
     .stat b{font-size:32px}
@@ -291,7 +302,7 @@
               <span class="mono">amostra · odontologia · são paulo</span>
               <span class="badge">ao vivo</span>
             </div>
-            <table class="sample" aria-label="Exemplo de linhas da lista">
+            <div class="card-scroll"><table class="sample" aria-label="Exemplo de linhas da lista">
               <thead>
                 <tr><th>CNPJ</th><th>Empresa</th><th>Telefone</th><th>CNAE</th></tr>
               </thead>
@@ -301,7 +312,7 @@
                 <tr><td class="muted">53.572.508/0001-20</td><td>Picoli &amp; Santana</td><td>(11) 4055-1698</td><td class="muted">8630-5/03</td></tr>
                 <tr><td class="muted">53.283.324/0001-40</td><td>Saúde da Mulher</td><td>(11) 3436-2321</td><td class="muted">8630-5/03</td></tr>
               </tbody>
-            </table>
+            </table></div>
             <div class="card-foot">
               <span>+ e-mail, endereço, bairro, CEP, UF</span>
               <span>4 de 59.863</span>

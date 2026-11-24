@@ -663,9 +663,11 @@
           '',
           'Quero receber a amostra de 20 leads deste recorte.'
         ].join('\n');
-        window.location.href = 'mailto:contato@basenexo.com.br'
+        var url = 'mailto:contato@basenexo.com.br'
           + '?subject=' + encodeURIComponent(assunto)
           + '&body=' + encodeURIComponent(corpo);
+        f.dataset.mailto = url;
+        window.location.href = url;
       });
     }
   })();

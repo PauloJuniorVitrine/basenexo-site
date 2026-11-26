@@ -580,11 +580,13 @@
               </select>
             </div>
             <div>
-              <label for="c-qtd">Quantidade</label>
-              <select id="c-qtd" name="qtd" required>
-                <option value="500">500 empresas · R$ 147</option>
-                <option value="2000">2.000 empresas · R$ 297</option>
-                <option value="5000">5.000 empresas · R$ 497</option>
+              <label for="c-plano">Plano</label>
+              <select id="c-plano" name="plano" required>
+                <option value="unico:500">Único · 500 empresas · R$ 147</option>
+                <option value="unico:2000">Único · 2.000 empresas · R$ 297</option>
+                <option value="unico:5000">Único · 5.000 empresas · R$ 497</option>
+                <option value="mes:500">Assinatura · 500 por mês · R$ 97/mês</option>
+                <option value="mes:2000">Assinatura · 2.000 por mês · R$ 197/mês</option>
               </select>
             </div>
           </div>
@@ -621,6 +623,7 @@
           <div class="linha"><span>Segmento</span><b id="r-nicho">—</b></div>
           <div class="linha"><span>Onde</span><b id="r-onde">—</b></div>
           <div class="linha"><span>Empresas</span><b id="r-qtd">500</b></div>
+          <div class="linha"><span>Cobrança</span><b id="r-cobranca">uma vez</b></div>
           <div class="total"><span>Total</span><strong id="r-total">R$ 147</strong></div>
           <p>Pagamento único, sem mensalidade. Nota fiscal de MEI. Se o recorte não tiver o volume contratado, você paga proporcional.</p>
         </aside>
@@ -794,22 +797,28 @@
     var API = 'https://api.basenexo.com.br';
     var form = document.getElementById('pedido-compra');
     if (!form) return;
-    var PRECOS = { '500': 147, '2000': 297, '5000': 497 };
+    var PRECOS = { 'unico:500': 147, 'unico:2000': 297, 'unico:5000': 497,
+                   'mes:500': 97, 'mes:2000': 197 };
     var q = function(id){ return document.getElementById(id); };
     var erro = q('c-erro'), btn = q('c-btn');
 
     function reais(v){ return 'R$ ' + v.toLocaleString('pt-BR'); }
+    function planoAtual(){
+      var partes = q('c-plano').value.split(':');
+      return { tipo: partes[0], qtd: Number(partes[1]), valor: PRECOS[q('c-plano').value] };
+    }
     function atualiza(){
+      var p = planoAtual();
       var nicho = q('c-nicho');
-      var qtd = q('c-qtd').value;
       q('r-nicho').textContent = nicho.options[nicho.selectedIndex].text;
       var cidade = q('c-cidade').value.trim();
       q('r-onde').textContent = cidade ? cidade + ' / ' + q('c-uf').value : q('c-uf').value;
-      q('r-qtd').textContent = Number(qtd).toLocaleString('pt-BR');
-      q('r-total').textContent = reais(PRECOS[qtd]);
-      btn.textContent = 'Ir para o pagamento · ' + reais(PRECOS[qtd]);
+      q('r-qtd').textContent = p.qtd.toLocaleString('pt-BR');
+      q('r-cobranca').textContent = p.tipo === 'mes' ? 'todo mês' : 'uma vez';
+      q('r-total').textContent = reais(p.valor) + (p.tipo === 'mes' ? '/mês' : '');
+      btn.textContent = 'Ir para o pagamento · ' + reais(p.valor) + (p.tipo === 'mes' ? '/mês' : '');
     }
-    ['c-nicho','c-qtd','c-cidade','c-uf'].forEach(function(id){
+    ['c-nicho','c-plano','c-cidade','c-uf'].forEach(function(id){
       q(id).addEventListener('input', atualiza);
       q(id).addEventListener('change', atualiza);
     });
@@ -817,7 +826,7 @@
 
     document.querySelectorAll('[data-qtd]').forEach(function(a){
       a.addEventListener('click', function(){
-        q('c-qtd').value = a.getAttribute('data-qtd');
+        q('c-plano').value = 'unico:' + a.getAttribute('data-qtd');
         atualiza();
       });
     });
@@ -826,11 +835,12 @@
       ev.preventDefault();
       erro.textContent = '';
       if (!form.checkValidity()){ form.reportValidity(); return; }
+      var p = planoAtual();
       var dados = {
         nicho: q('c-nicho').value,
         cidade: q('c-cidade').value.trim(),
         uf: q('c-uf').value,
-        qtd: Number(q('c-qtd').value),
+        qtd: p.qtd,
         nome: q('c-nome').value.trim(),
         email: q('c-email').value.trim(),
         cpfCnpj: q('c-cpf').value.replace(/\D/g, '')
@@ -842,8 +852,8 @@
       }
       btn.disabled = true;
       var antes = btn.textContent;
-      btn.textContent = 'Gerando o pagamento...';
-      fetch(API + '/pedido', {
+      btn.textContent = p.tipo === 'mes' ? 'Criando a assinatura...' : 'Gerando o pagamento...';
+      fetch(API + (p.tipo === 'mes' ? '/assinatura' : '/pedido'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados)

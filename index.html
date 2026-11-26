@@ -173,6 +173,26 @@
   .pay-note{margin-top:26px;font-size:13.5px;color:var(--ink-faint);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   .pay-note b{color:var(--ink);font-weight:500}
 
+  /* comprar */
+  #comprar{padding:88px 0;background:var(--paper)}
+  .buy{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:start;margin-top:34px}
+  .buy form{gap:16px}
+  .buy label{color:var(--ink-faint)}
+  .buy input,.buy select{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .buy input::placeholder{color:#A9A29A}
+  .buy form .btn{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .buy form .btn:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .buy form .btn[disabled]{opacity:.55;cursor:progress}
+  .buy .form-note{color:var(--ink-faint)}
+  .erro{color:#B3261E;font-size:13.5px;min-height:19px;margin:0}
+  .resumo{border:1px solid var(--line);border-radius:var(--radius);padding:28px;background:#fff;position:sticky;top:24px}
+  .resumo h3{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:18px}
+  .resumo .linha{display:flex;justify-content:space-between;gap:18px;font-size:14.5px;padding:11px 0;border-bottom:1px solid var(--line);color:var(--ink-soft)}
+  .resumo .linha b{color:var(--ink);font-weight:500;text-align:right}
+  .resumo .total{display:flex;justify-content:space-between;align-items:baseline;padding-top:18px;font-size:15px}
+  .resumo .total strong{font-family:var(--mono);font-size:26px;letter-spacing:-.02em}
+  .resumo p{font-size:13px;color:var(--ink-faint);margin-top:14px;line-height:1.6}
+
   /* faq */
   .faq{display:grid;gap:0;border-top:1px solid var(--line);max-width:860px}
   details{border-bottom:1px solid var(--line);padding:22px 0}
@@ -268,6 +288,7 @@
       <a href="#como">Como funciona</a>
       <a href="#dados">O que vem</a>
       <a href="#precos">Preços</a>
+      <a href="#comprar">Comprar</a>
       <a href="#duvidas">Dúvidas</a>
     </nav>
     <a class="btn btn-sm" href="#amostra">Pedir amostra grátis</a>
@@ -476,7 +497,7 @@
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> CSV + Excel</li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Amostra de 20 linhas antes</li>
           </ul>
-          <a class="btn btn-ghost" href="https://www.asaas.com/000/c/5e0azx8va5kauef4" target="_blank" rel="noopener">Comprar 500 leads</a>
+          <a class="btn btn-ghost" href="#comprar" data-qtd="500">Comprar 500 leads</a>
         </div>
 
         <div class="plan dark">
@@ -491,7 +512,7 @@
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Coluna de prioridade por porte</li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> CSV + Excel</li>
           </ul>
-          <a class="btn" href="https://www.asaas.com/000/c/q2ogah7h7180bpae" target="_blank" rel="noopener">Comprar 2.000 leads</a>
+          <a class="btn" href="#comprar" data-qtd="2000">Comprar 2.000 leads</a>
         </div>
 
         <div class="plan">
@@ -506,17 +527,112 @@
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Arquivo dividido por UF</li>
             <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> CSV + Excel</li>
           </ul>
-          <a class="btn btn-ghost" href="https://www.asaas.com/000/c/8th7psnhyl0zqpng" target="_blank" rel="noopener">Comprar 5.000 leads</a>
+          <a class="btn btn-ghost" href="#comprar" data-qtd="5000">Comprar 5.000 leads</a>
         </div>
       </div>
       <p class="pay-note"><b>Pix ou cartão</b> · link da Asaas, pagamento na hora · entrega em até 1 dia útil após a confirmação · nota fiscal de MEI</p>
     </div>
   </section>
 
+  <section id="comprar">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="sec-num">05 / comprar agora</div>
+        <div>
+          <h2>Monte o recorte e pague na hora.</h2>
+          <p class="sec-sub">Escolha segmento, cidade e volume. O pagamento abre na Asaas (Pix ou cartão) e a lista é gerada sozinha assim que cair — sem esperar resposta de ninguém.</p>
+        </div>
+      </div>
+      <div class="buy reveal">
+        <form id="pedido-compra" novalidate>
+          <div class="row2">
+            <div>
+              <label for="c-nicho">Segmento</label>
+              <select id="c-nicho" name="nicho" required>
+                <option value="dentistas">dentistas</option>
+                <option value="fisioterapia">fisioterapia</option>
+                <option value="clinicas-medicas">clinicas medicas</option>
+                <option value="laboratorios">laboratorios</option>
+                <option value="estetica-e-beleza">estetica e beleza</option>
+                <option value="academias">academias</option>
+                <option value="restaurantes">restaurantes</option>
+                <option value="bares">bares</option>
+                <option value="padarias-e-cafes">padarias e cafes</option>
+                <option value="advogados">advogados</option>
+                <option value="contabilidades">contabilidades</option>
+                <option value="consultorias">consultorias</option>
+                <option value="agencias-de-marketing">agencias de marketing</option>
+                <option value="imobiliarias">imobiliarias</option>
+                <option value="construtoras">construtoras</option>
+                <option value="pet-shops-e-veterinarias">pet shops e veterinarias</option>
+                <option value="farmacias">farmacias</option>
+                <option value="mercados">mercados</option>
+                <option value="lojas-de-roupa">lojas de roupa</option>
+                <option value="moveis-e-decoracao">moveis e decoracao</option>
+                <option value="autopecas-e-oficinas">autopecas e oficinas</option>
+                <option value="graficas">graficas</option>
+                <option value="empresas-de-ti">empresas de TI</option>
+                <option value="transportadoras">transportadoras</option>
+                <option value="hoteis-e-pousadas">hoteis e pousadas</option>
+                <option value="escolas-e-cursos">escolas e cursos</option>
+                <option value="serralherias-e-vidracarias">serralherias e vidracarias</option>
+                <option value="instalacao-e-reforma">instalacao e reforma</option>
+              </select>
+            </div>
+            <div>
+              <label for="c-qtd">Quantidade</label>
+              <select id="c-qtd" name="qtd" required>
+                <option value="500">500 empresas · R$ 147</option>
+                <option value="2000">2.000 empresas · R$ 297</option>
+                <option value="5000">5.000 empresas · R$ 497</option>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div>
+              <label for="c-cidade">Cidade</label>
+              <input id="c-cidade" name="cidade" type="text" placeholder="Campinas" autocomplete="address-level2" required>
+            </div>
+            <div>
+              <label for="c-uf">Estado</label>
+              <select id="c-uf" name="uf" required><option value="AC">AC</option><option value="AL">AL</option><option value="AM">AM</option><option value="AP">AP</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MG">MG</option><option value="MS">MS</option><option value="MT">MT</option><option value="PA">PA</option><option value="PB">PB</option><option value="PE">PE</option><option value="PI">PI</option><option value="PR">PR</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RO">RO</option><option value="RR">RR</option><option value="RS">RS</option><option value="SC">SC</option><option value="SE">SE</option><option value="SP" selected>SP</option><option value="TO">TO</option></select>
+            </div>
+          </div>
+          <div class="row2">
+            <div>
+              <label for="c-nome">Seu nome</label>
+              <input id="c-nome" name="nome" type="text" placeholder="Paulo Rabelo" autocomplete="name" required>
+            </div>
+            <div>
+              <label for="c-cpf">CPF ou CNPJ</label>
+              <input id="c-cpf" name="cpfCnpj" type="text" inputmode="numeric" placeholder="000.000.000-00" required>
+            </div>
+          </div>
+          <div>
+            <label for="c-email">E-mail para receber a lista</label>
+            <input id="c-email" name="email" type="email" placeholder="voce@empresa.com.br" autocomplete="email" required>
+          </div>
+          <button class="btn" type="submit" id="c-btn">Ir para o pagamento</button>
+          <p class="erro" id="c-erro" role="alert"></p>
+          <p class="form-note">Pix ou cartão. O arquivo (CSV + Excel) chega no e-mail informado em até 1 dia útil depois da confirmação do pagamento.</p>
+        </form>
+        <aside class="resumo">
+          <h3>Resumo do pedido</h3>
+          <div class="linha"><span>Segmento</span><b id="r-nicho">—</b></div>
+          <div class="linha"><span>Onde</span><b id="r-onde">—</b></div>
+          <div class="linha"><span>Empresas</span><b id="r-qtd">500</b></div>
+          <div class="total"><span>Total</span><strong id="r-total">R$ 147</strong></div>
+          <p>Pagamento único, sem mensalidade. Nota fiscal de MEI. Se o recorte não tiver o volume contratado, você paga proporcional.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+
   <section id="duvidas">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="sec-num">05 / dúvidas</div>
+        <div class="sec-num">06 / dúvidas</div>
         <div>
           <h2>O que costumam perguntar antes de comprar.</h2>
         </div>
@@ -559,7 +675,7 @@
       <div class="cta-grid">
         <div>
           <div class="sec-head" style="display:block">
-            <div class="sec-num" style="margin-bottom:20px">06 / amostra grátis</div>
+            <div class="sec-num" style="margin-bottom:20px">07 / amostra grátis</div>
             <h2>Veja a lista antes de pagar por ela.</h2>
             <p class="sec-sub">Diga o recorte que você precisa. Em até um dia útil você recebe 20 empresas reais, no mesmo formato do arquivo completo.</p>
           </div>
@@ -670,6 +786,78 @@
         window.location.href = url;
       });
     }
+  })();
+</script>
+
+<script>
+  (function(){
+    var API = 'https://api.basenexo.com.br';
+    var form = document.getElementById('pedido-compra');
+    if (!form) return;
+    var PRECOS = { '500': 147, '2000': 297, '5000': 497 };
+    var q = function(id){ return document.getElementById(id); };
+    var erro = q('c-erro'), btn = q('c-btn');
+
+    function reais(v){ return 'R$ ' + v.toLocaleString('pt-BR'); }
+    function atualiza(){
+      var nicho = q('c-nicho');
+      var qtd = q('c-qtd').value;
+      q('r-nicho').textContent = nicho.options[nicho.selectedIndex].text;
+      var cidade = q('c-cidade').value.trim();
+      q('r-onde').textContent = cidade ? cidade + ' / ' + q('c-uf').value : q('c-uf').value;
+      q('r-qtd').textContent = Number(qtd).toLocaleString('pt-BR');
+      q('r-total').textContent = reais(PRECOS[qtd]);
+      btn.textContent = 'Ir para o pagamento · ' + reais(PRECOS[qtd]);
+    }
+    ['c-nicho','c-qtd','c-cidade','c-uf'].forEach(function(id){
+      q(id).addEventListener('input', atualiza);
+      q(id).addEventListener('change', atualiza);
+    });
+    atualiza();
+
+    document.querySelectorAll('[data-qtd]').forEach(function(a){
+      a.addEventListener('click', function(){
+        q('c-qtd').value = a.getAttribute('data-qtd');
+        atualiza();
+      });
+    });
+
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      erro.textContent = '';
+      if (!form.checkValidity()){ form.reportValidity(); return; }
+      var dados = {
+        nicho: q('c-nicho').value,
+        cidade: q('c-cidade').value.trim(),
+        uf: q('c-uf').value,
+        qtd: Number(q('c-qtd').value),
+        nome: q('c-nome').value.trim(),
+        email: q('c-email').value.trim(),
+        cpfCnpj: q('c-cpf').value.replace(/\D/g, '')
+      };
+      if (dados.cpfCnpj.length !== 11 && dados.cpfCnpj.length !== 14){
+        erro.textContent = 'Informe um CPF (11 dígitos) ou CNPJ (14 dígitos).';
+        q('c-cpf').focus();
+        return;
+      }
+      btn.disabled = true;
+      var antes = btn.textContent;
+      btn.textContent = 'Gerando o pagamento...';
+      fetch(API + '/pedido', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+        .then(function(res){
+          if (res.ok && res.j.url){ window.location.href = res.j.url; return; }
+          throw new Error((res.j && res.j.erro) || 'falha ao gerar a cobrança');
+        })
+        .catch(function(e){
+          btn.disabled = false;
+          btn.textContent = antes;
+          erro.textContent = 'Não deu para abrir o pagamento: ' + e.message + '. Tente de novo ou escreva para basenexo2@gmail.com.';
+        });
+    });
   })();
 </script>
 </body>
